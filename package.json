@@ -1,0 +1,22 @@
+{
+  "name": "strider-remote-simple-worker",
+  "version": "0.0.1",
+  "description": "Examplre remote worker that just spawns children",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/BrowserSwarm/strider-remote-simple-runner.git"
+  },
+  "author": "BrowserSwarm",
+  "bugs": {
+    "url": "https://github.com/BrowserSwarm/strider-remote-simple-runner/issues"
+  },
+  "dependencies": {
+    "duplex-emitter": "~2.1.2",
+    "async": "~0.2.9",
+    "reconnect": "~1.5.2",
+    "colors": "~0.6.2"
+  },
+  "scripts": {
+    "start": "node index.js"
+  }
+}
