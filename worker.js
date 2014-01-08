@@ -71,8 +71,22 @@ function onConnect(socket) {
   this.socket = socket;
   this.server = DuplexEmitter(socket);
 
+  this.server.once('init', onInit.bind(this));
+}
+
+
+/// onInit
+
+function onInit(type, env) {
+  var worker = this;
+  console.log('got init event from server: type = %j, env = %j', type, env);
+
   this.server.on('spawn', onSpawn.bind(this));
 
+  setTimeout(function() {
+    console.log('sending event initialised to server');
+    worker.server.emit('initialised');
+  }, 500);
 }
 
 
