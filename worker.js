@@ -93,8 +93,8 @@ function onInit(type, env) {
 /// onSpawn
 
 function onSpawn(command, args, options) {
-  if (this.child) return this.fatalError.call(this, 'Still have child process working');
   console.log('Spawning command: %j ARGS: %j, OPTIONS: %j'.yellow, command, args, options);
+  if (this.child) return fatalError.call(this, 'Still have child process working');
   this.child = spawn(command, args, options);
   this.child.stdout.setEncoding('utf8');
   this.child.stdout.on('data', onChildStdout.bind(this));
@@ -124,14 +124,15 @@ function onChildStderr(buf) {
 
 function onChildClose(code) {
   console.log('Command closed, status code = %d', code);
-  this.server.emit('close', code);
   this.child = undefined;
+  this.server.emit('close', code);
 }
 
 
 /// fatalError
 
 function fatalError(msg) {
+  console.error('FATAL ERROR'.red, msg);
   error.call(this, msg);
 }
 
