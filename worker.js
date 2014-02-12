@@ -5,7 +5,6 @@ var net           = require('net');
 var DuplexEmitter = require('duplex-emitter');
 var spawn         = require('child_process').spawn;
 var reconnect     = require('reconnect');
-var mkdirp = require('mkdirp');
 
 exports.create = create;
 
@@ -23,7 +22,6 @@ function Worker() {
   this.child  = undefined;
   this.socket = undefined;
   this.server = undefined;
-  this.dir = false;
 }
 
 var W = Worker.prototype;
@@ -95,10 +93,6 @@ function onInit(type, env) {
 /// onSpawn
 
 function onSpawn(command, args, options) {
-  if(this.dir === false) {
-    mkdirp.sync(options.cwd);
-    this.dir = true;
-  }
   console.log('Spawning command: %j ARGS: %j, OPTIONS: %j'.yellow, command, args, options);
   if (this.child) return fatalError.call(this, 'Still have child process working');
   this.child = spawn(command, args, options);
