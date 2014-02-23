@@ -11,7 +11,8 @@ exports.create = create;
 
 /// Config
 
-var dispatcherPort = 8632; /// TODO: make this configurable
+var dispatcherPort = process.env.DISPATCHER_PORT || process.argv[3] || 8632;
+var dispatcherAddress = process.env.DISPATCHER_IP || process.argv[2] || '127.0.0.1';
 
 function create() {
   return new Worker;
@@ -52,7 +53,7 @@ W.connect = function connect() {
 /// startReconnect
 
 function startReconnect() {
-  this.reconnect = reconnect(onConnect.bind(this)).connect(dispatcherPort);
+  this.reconnect = reconnect(onConnect.bind(this)).connect(dispatcherPort, dispatcherAddress);
 
   this.reconnect.on('disconnect', function() {
     console.log('Disconnected from dispatcher'.red);
